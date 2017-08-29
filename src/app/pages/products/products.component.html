@@ -1,0 +1,39 @@
+<form [formGroup]="myForm" novalidate (ngSubmit)="submit()">
+  <div formArrayName="products">
+    <div *ngFor="let product of myForm.controls.products.controls; let i=index">
+      <ba-card cardTitle="Product{{i + 1}}" baCardClass="with-scroll" [formGroupName]="i">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Product Name</label>
+            <input type="text" class="form-control" formControlName="productName">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Product Description</label>
+            <input type="text" class="form-control" formControlName="productDescription">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Product URL</label>
+            <input type="text" class="form-control" formControlName="productURL">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Product Tags</label>
+            <tag-input [onlyFromAutocomplete]="true" secondaryPlaceholder ="+ Tag" placeholder="+ Tag"  formControlName="productTag">
+              <tag-input-dropdown [showDropdownIfEmpty]="true"
+              [autocompleteObservable]="autocompleteItems">
+              </tag-input-dropdown>
+            </tag-input>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-success" [disabled]="myForm?.invalid">Save</button>
+          <button type="button" class="btn btn-danger" *ngIf="myForm.controls.products.controls.length > 1" (click)="removeAddress(i)">Delete Product</button>
+        </div>
+      </ba-card>
+    </div>
+  </div>
+</form>
+<div>
+  <button type="button" class="btn btn-danger" (click)="addProducts()">Add New Product</button>
+</div>
