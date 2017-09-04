@@ -1,186 +1,173 @@
 <div class="row">
-<div class="col-md-12 welcomemsg"> Hello {{( name &&  name.displayName) ||(name && name.email ) }} !</div>
+  <div class="col-md-12 welcomemsg"> Hello {{( name && name.displayName) ||(name && name.email ) }} !</div>
 </div>
 
 <div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+<ba-card class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<form [formGroup]="dateRangeForm">
+      <div class="row col-xs-12 form-group" [class.has-error]="!dateRangeForm.valid && dateRangeForm.errors">
+        <div class="col-sm-6" [class.has-error]="dateRangeForm.controls.startDate.errors">
+          <label class="control-label">From</label>
+          <input type="date" class="form-control" [formControl]="dateRangeForm.controls.startDate" />
+        </div>
+        <div class="col-sm-6" [class.has-error]="dateRangeForm.controls.endDate.errors">
+          <label class="control-label">To</label>
+          <input type="date" class="form-control" [formControl]="dateRangeForm.controls.endDate" />
+        </div>
+      </div>
+      <ul *ngIf="!dateRangeForm.valid || dateRangeForm.errors" class="text-danger">
+        <li *ngIf="dateRangeForm.controls.startDate.errors?.required"><strong>From</strong> date is required.</li>
+        <li *ngIf="dateRangeForm.controls.endDate.errors?.required"><strong>To</strong> date is required.</li>
+        <li *ngIf="dateRangeForm.errors?.greaterStartDate"><strong>From</strong> date should not greater than <strong>To</strong> date.</li>
+      </ul>
+    </form>
+</ba-card>
+</div>
+</div>
+<div class="row">
 
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-   <!-- <pie-chart></pie-chart> -->
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <!-- <pie-chart></pie-chart> -->
 
-     <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
 
-    <div class="pie-chart-item">
-       <div class="description">
-        <div translate>Visitors</div>
-        <div class="description-stats">324</div>
+    <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
+
+
+
+      <div class="pie-chart-item">
+        <div class="description">
+          <div translate>Visitors</div>
+          <div class="description-stats">324</div>
+        </div>
+
       </div>
 
-    </div>
+    </ba-card>
 
-  </ba-card>
+    <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
 
-<ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
+      <div class="pie-chart-item">
+        <div class="description">
+          <div translate>Topics</div>
+          <div class="description-stats">3</div>
+        </div>
 
-    <div class="pie-chart-item">
-       <div class="description">
-        <div translate>Topics</div>
-        <div class="description-stats">3</div>
       </div>
 
-    </div>
+    </ba-card>
 
-  </ba-card>
+    <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
 
-  <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
+      <div class="pie-chart-item">
+        <div class="description">
+          <div translate>Emails</div>
+          <div class="description-stats">34</div>
+        </div>
 
-    <div class="pie-chart-item">
-       <div class="description">
-        <div translate>Emails</div>
-        <div class="description-stats">34</div>
       </div>
 
-    </div>
+    </ba-card>
 
-  </ba-card>
+    <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
 
-  <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
+      <div class="pie-chart-item">
+        <div class="description">
+          <div translate>Product</div>
+          <div class="description-stats">2</div>
+        </div>
 
-    <div class="pie-chart-item">
-       <div class="description">
-        <div translate>Product</div>
-        <div class="description-stats">2</div>
       </div>
 
-    </div>
-
-  </ba-card>
+    </ba-card>
 
   </div>
 </div>
 
 <div class="row">
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-                     cardTitle="List of Emails" baCardClass="traffic-panel medium-card" >
+  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="List of Emails" baCardClass="traffic-panel medium-card with-scroll">
 
-  <table class="table table-hover table-bordered">
-  <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Date</th>
-    </tr>
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of emailsListData; let counter = index;">
+          <td>{{ counter + 1 }}</td>
+          <td>{{ item?.userName || '-' }}</td>
+          <td>{{ item?.emailID  || '-' }}</td>
+          <td>{{ item?.date || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <tr><td>1</td><td>Roajer</td><td>roajer@dfg.com</td><td>Aug 15, 2017 1:27:51 PM</td></tr>
-  <tr><td>2</td><td>Ikram</td><td>ikr@dfg.com</td><td>Aug 25, 2017 1:27:51 PM</td></tr>
-  <tr><td>3</td><td>John</td><td>rer@dfg.com</td><td>Sep 5, 2017 1:27:51 PM</td></tr>
-  </table>
+  </ba-card>
 
-        </ba-card>
+  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="List of Topics" baCardClass="medium-card with-scroll">
 
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-           cardTitle="List of Topics" baCardClass="medium-card">
+    <table class="table table-hover table-bordered">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+      </tr>
 
-   <table class="table table-hover table-bordered">
-  <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Date</th>
-    </tr>
-
-  <tr><td>1</td><td>Roajer</td><td>roajer@dfg.com</td><td>Aug 15, 2017 1:27:51 PM</td></tr>
-  <tr><td>2</td><td>Ikram</td><td>ikr@dfg.com</td><td>Aug 25, 2017 1:27:51 PM</td></tr>
-  <tr><td>3</td><td>John</td><td>rer@dfg.com</td><td>Sep 5, 2017 1:27:51 PM</td></tr>
-  </table>
+       <tr *ngFor="let item of topicListData; let counter = index;">
+          <td>{{ counter + 1 }}</td>
+          <td>{{ item?.userName || '-' }}</td>
+          <td>{{ item?.emailID  || '-' }}</td>
+          <td>{{ item?.date || '-' }}</td>
+        </tr>
+    </table>
 
   </ba-card>
 </div>
 
 <div class="row">
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-                     cardTitle="List of Products" baCardClass="traffic-panel medium-card">
+  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="List of Products" baCardClass="traffic-panel medium-card">
 
-  <table class="table table-hover table-bordered">
-  <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Date</th>
-    </tr>
+    <table class="table table-hover table-bordered">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+      </tr>
 
-  <tr><td>1</td><td>Roajer</td><td>roajer@dfg.com</td><td>Aug 15, 2017 1:27:51 PM</td></tr>
-  <tr><td>2</td><td>Ikram</td><td>ikr@dfg.com</td><td>Aug 25, 2017 1:27:51 PM</td></tr>
-  <tr><td>3</td><td>John</td><td>rer@dfg.com</td><td>Sep 5, 2017 1:27:51 PM</td></tr>
-  </table>
+      <tr *ngFor="let item of productListData; let counter = index;">
+          <td>{{ counter + 1 }}</td>
+          <td>{{ item?.userName || '-' }}</td>
+          <td>{{ item?.emailID  || '-' }}</td>
+          <td>{{ item?.date || '-' }}</td>
+        </tr>
+    </table>
 
-        </ba-card>
+  </ba-card>
 
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-           cardTitle="List of Queries" baCardClass="medium-card">
+  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="List of Queries" baCardClass="medium-card">
+    <table class="table table-hover table-bordered">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+      </tr>
 
-   <table class="table table-hover table-bordered">
-  <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Date</th>
-    </tr>
-
-  <tr><td>1</td><td>Roajer</td><td>roajer@dfg.com</td><td>Aug 15, 2017 1:27:51 PM</td></tr>
-  <tr><td>2</td><td>Ikram</td><td>ikr@dfg.com</td><td>Aug 25, 2017 1:27:51 PM</td></tr>
-  <tr><td>3</td><td>John</td><td>rer@dfg.com</td><td>Sep 5, 2017 1:27:51 PM</td></tr>
-  </table>
+      <tr *ngFor="let item of queryListData; let counter = index;">
+          <td>{{ counter + 1 }}</td>
+          <td>{{ item?.userName || '-' }}</td>
+          <td>{{ item?.emailID  || '-' }}</td>
+          <td>{{ item?.date || '-' }}</td>
+        </tr>
+    </table>
 
   </ba-card>
 </div>
 
 
-<div class="row">
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-                     cardTitle="ADD/UPDATE Current Details" baCardClass="traffic-panel medium-card">
-
-
-   <!-- <traffic-chart></traffic-chart>-->
-<!--{{formdata && formdata.blogname}}-->
-
-  <form class="col-md-12" #formData='ngForm' action="#"  novalidate="" (ngSubmit)="onSubmit(formData)" class="ng-untouched ng-pristine ng-valid">
-
- <table class="table table-bordered  table-striped">
-  <tr>
-    <td>Blog name</td><td><input type="text" placeholder="Blog Name" (ngModel)="formdata.blogname" name="blogname" value="{{formdata&&formdata.blogname}}" class="txt" required></td></tr>
-    <tr>  <td>Blog url</td><td><input type="text" placeholder="Blog Url" (ngModel)="formdata.blogurl" name="blogurl" value="{{formdata&&formdata.blogurl}}" class="txt" required></td></tr>
-     <tr>   <td>Default followers</td><td><input type="text" placeholder="Followers" (ngModel)="formdata.follow" value="{{formdata&&formdata.defaultfollow}}" name="defaultfollow" class="txt" required></td></tr>
-     <tr>     <td>Email</td><td><input type="text" placeholder="Email" (ngModel)="formdata.email" name="email" value="{{formdata&&formdata.email}}" class="txt" required></td></tr>
-      <tr>      <td>Name</td><td><input type="text" placeholder="Name" (ngModel)="formdata.name" name="name" value="{{formdata&&formdata.name}}" class="txt" required></td></tr>
-        <tr>      <td>Popup Message</td><td><input type="text" placeholder="Message" (ngModel)="formdata.popupmsg" name="popup" value="{{formdata&&formdata.popup}}" class="txt" required></td></tr>
-         <tr>       <td>Product</td><td>  <input type="text" placeholder="Product" (ngModel)="formdata.productname" name="product" class="txt" required></td></tr>
-         <tr>         <td>Tags</td><td> <input type="text" placeholder="Tag" (ngModel)="formdata.tags" name="tag" class="txt" required></td>                </tr>
-         <tr>
-           <td></td><td>
-             <button type="submit" [disabled]="!formData.valid"  class="btn btn-success margin10">Add Details</button>
-           </td>
-         </tr>
-
-    </table>
-
-  </form>
-     <!--  </form> -->
-        </ba-card>
-
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12"
-           cardTitle="Current Details" baCardClass="medium-card">
-  <!--  <users-map></users-map>--><div [hidden]="!loader" id="loading"></div>
-   <table class="table table-bordered  table-striped">
-  <tr>
-    <td>Blog name</td><td>{{formdata&&formdata.blogname}}</td></tr>
-    <tr>  <td>Blog url</td><td>{{formdata&&formdata.blogurl}}</td></tr>
-     <tr>   <td>Default followers</td><td>{{formdata&&formdata.defaultfollow}}</td></tr>
-     <tr>     <td>Email</td><td>{{formdata&&formdata.email}}</td></tr>
-      <tr>      <td>Name</td><td>{{formdata&&formdata.name}}</td></tr>
-        <tr>      <td>Popup Message</td><td>{{formdata&&formdata.popup}}</td></tr>
-         <tr>       <td>Product</td><td>{{formdata&&formdata.product}}</td></tr>
-         <tr>         <td>Tags</td><td>{{formdata&&formdata.tag}}</td>                </tr>
-
-    </table>
-  </ba-card>
-</div>

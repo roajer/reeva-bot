@@ -20,26 +20,19 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 import { AuthGuard } from './_service/auth.service';
-
-export const firebaseConfig = {
-    apiKey: "AIzaSyDqttfwmNjioRtMtAtyP8ozUPlta2f9uDU",
-    authDomain: "reeva-d9399.firebaseapp.com",
-    databaseURL: "https://reeva-d9399.firebaseio.com",
-    projectId: "reeva-d9399",
-    storageBucket: "reeva-d9399.appspot.com",
-    messagingSenderId: "251188364704"
-};
+import { environment } from '../environments/environment';
+import { HttpService } from './_service/http.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
-  GlobalState
+  GlobalState,
 ];
 
 export type StoreType = {
   state: InternalStateType,
   restoreInputValues: () => void,
-  disposeOldHosts: () => void
+  disposeOldHosts: () => void,
 };
 
 /**
@@ -48,7 +41,7 @@ export type StoreType = {
 @NgModule({
   bootstrap: [App],
   declarations: [
-    App
+    App,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -63,12 +56,12 @@ export type StoreType = {
     routing,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(firebaseConfig)],
+    AngularFireModule.initializeApp(environment.firebaseConfig)],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS,
-    AuthGuard
-
-  ]
+    AuthGuard,
+    HttpService,
+  ],
 })
 
 export class AppModule {

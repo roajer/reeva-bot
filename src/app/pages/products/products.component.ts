@@ -100,7 +100,7 @@ ngOnInit() {
  this.addProducts();
 
  let headers = new Headers();
-		headers.append('Authorization', 'Bearer d230d92c08d640eeb79b1350db1d7608');
+	 headers.append('Authorization', 'Bearer d230d92c08d640eeb79b1350db1d7608');
 		this.autocompleteItems = (text: string): Observable<Response> => {
 			const url = 'https://api.api.ai/v1/entities?v=20150910';
 			return this.http
@@ -134,6 +134,19 @@ initializeProducts() {
 
 submit() {
    console.log('Reactive Form submitted: ', this.myForm.value);
+
+   firebase.database().ref('products'+'/'+this.name.uid).push().set(this.myForm.value).then(
+        (success) => {
+          console.log(success);
+   // this.myForm ={};
+
+      this.getFirebaseData(this.name.uid, this.user);
+        this.router.navigate(['/pages/products']);
+      }).catch(
+        (err) => {
+        console.log(err);
+      });
+
 }
 
 

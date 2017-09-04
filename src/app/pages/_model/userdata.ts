@@ -1,11 +1,13 @@
 export class userdata{
-
+    $key: string;
+    file: File;
     blogname: string;
     blogurl : string;
-    defaultfollow: string;
     email : string;
     name : string;
     popup : string;
-    product :string;
-    tag : string;
+    imagename: string;
+    imageurl: string;
+    progress: number;
+    createdAt: Date = new Date();
 }

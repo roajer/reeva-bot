@@ -1,8 +1,8 @@
 export class Upload {
     $key: string;
     file: File;
-    name: string;
-    url: string;
+    imagename: string;
+    imageurl: string;
     progress: number;
     createdAt: Date = new Date();
 

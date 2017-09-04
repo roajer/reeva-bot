@@ -19,6 +19,8 @@ export class ConfigureComponent implements OnInit {
   authUser: any;
   loader: boolean;
 
+  formObject: any;
+
   public error: any;
 
 
@@ -41,11 +43,14 @@ export class ConfigureComponent implements OnInit {
         this.authUser = auth;
         this.loader = true;
         this.getFirebaseData(this.authUser.uid, user);
-      }
+
+       }
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   onPictureChanged(event: any) {
     this.profilePicture = event.data;
@@ -81,11 +86,19 @@ export class ConfigureComponent implements OnInit {
 
   getFirebaseData(data, user) {
     this.loader = true;
+
     firebase.database().ref(`users/${data}`).once('value').then(function (snapshot) {
       user = snapshot.val();
     }).then(sucess => {
       this.loader = false;
       this.formdata = user;
+     /* this.formdata.subscribe(d => {
+        this.formObject = user;
+      }); */
+     // this.formdata.subscribe(d => {user = d});
+
+
+
     });
   }
 
@@ -96,7 +109,7 @@ export class ConfigureComponent implements OnInit {
       firebase.database().ref(`users/${this.authUser.uid}`)
         .set(_formData)
         .then((success) => {
-          this.formdata = {};
+         // this.formdata = {};
           this.getFirebaseData(this.authUser.uid, this.user);
           this.router.navigate(['/pages/configure']);
         }).catch((err) => {

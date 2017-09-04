@@ -1,64 +1,244 @@
-import {Component,OnInit} from '@angular/core';
-import { AngularFireAuth} from 'angularfire2/auth';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { userdata } from '../././_model/userdata';
+import * as moment from 'moment';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CustomValidators } from 'ng2-validation';
+import { HttpService } from '../../_service/http.service';
+
 @Component({
   selector: 'dashboard',
   styleUrls: ['./dashboard.scss'],
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
 })
-export class Dashboard implements OnInit  {
+export class Dashboard implements OnInit, OnDestroy {
+  emailsListData: any[] = [];
+  topicListData: any[] = [];
 
-  formdata: any ={};
+  productListData: any[] = [];
+  queryListData: any[] = [];
+
+  dateRangeForm = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
+  }, this.startDateNotGreaterThanEndDate);
+
+  dateRangeTopicForm = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
+  }, this.startDateNotGreaterThanEndDate);
+
+  dateRangeProductForm = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
+  }, this.startDateNotGreaterThanEndDate);
+
+  dateRangeQueryForm = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required]),
+  }, this.startDateNotGreaterThanEndDate);
+
+  dateRangeFormSub: any;
+  formdata: any = {};
   name: any;
   loader: boolean;
- constructor(public user: userdata, public af: AngularFireAuth, private router: Router) {
-
-     this.af.authState.subscribe(auth => {
-      if(auth) {
+  constructor(
+    public user: userdata,
+    public af: AngularFireAuth,
+    private router: Router,
+    private httpService: HttpService,
+  ) {
+    this.af.authState.subscribe(auth => {
+      if (auth) {
         this.name = auth;
-      this.loader = true;
-      this.getFirebaseData(this.name.uid, user);
+        this.loader = true;
+      //  this.getFirebaseData(this.name.uid, user);
       }
-     });
+    });
+  }
 
- }
+  ngOnInit() {
+    this.fetchDateRangeData();
+    this.dateRangeFormSub = this.dateRangeForm.valueChanges.subscribe((data) => {
+     this.fetchDateRangeData();
+    });
 
- getFirebaseData(data,user)
- {
-   this.loader=true;
-     firebase.database().ref('users'+'/'+data).once('value').then(function(snapshot) {
-       user = snapshot.val();
+  }
 
-  }).then(sucess =>
-  {
-    this.loader=false;
-   this.formdata = user;
+  startDateNotGreaterThanEndDate(g: FormGroup) {
+    return (new Date(g.get('startDate').value).getTime() <= new Date(g.get('endDate').value).getTime())
+      ? null : { 'greaterStartDate': true };
+  }
 
-  });
-
- }
-
-  onSubmit(formData) {
-console.log(formData);
-    if(formData.valid)
-   {
-    firebase.database().ref('users'+'/'+this.name.uid).set(formData.value).then(
-        (success) => {
-    this.formdata ={};
-
-      this.getFirebaseData(this.name.uid,this.user);
-        this.router.navigate(['/pages/dashboard']);
-      }).catch(
-        (err) => {
-        console.log(err);
+  fetchDateRangeData(event?: any) {
+    if (this.dateRangeForm.valid && !this.dateRangeForm.errors) {
+    /*  const data = JSON.stringify({
+        startDate: new Date(this.dateRangeForm.value.startDate).toISOString(),
+        endDate: new Date(this.dateRangeForm.value.endDate).toISOString(),
+      });
+    */
+      const strDte = new Date(this.dateRangeForm.value.startDate).toISOString();
+      const endDte = new Date(this.dateRangeForm.value.endDate).toISOString();
+      const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', url);
+      const subscriber = this.httpService.httpRequest({
+        method: 'GET',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.emailsListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        subscriber.unsubscribe();
+      }, failure => {
+        subscriber.unsubscribe();
       });
 
-  }
-  }
-  ngOnInit()
-  {
 
+
+      const topicurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=topic&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', topicurl);
+      const topicsubscriber = this.httpService.httpRequest({
+        method: 'GET',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.topicListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        topicsubscriber.unsubscribe();
+      }, failure => {
+        topicsubscriber.unsubscribe();
+      });
+
+
+      const producturl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=product&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', producturl);
+      const productsubscriber = this.httpService.httpRequest({
+        method: 'POST',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.productListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        productsubscriber.unsubscribe();
+      }, failure => {
+        productsubscriber.unsubscribe();
+      });
+
+
+      const queryurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=queries&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', queryurl);
+      const queriessubscriber = this.httpService.httpRequest({
+        method: 'POST',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.queryListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        queriessubscriber.unsubscribe();
+      }, failure => {
+        queriessubscriber.unsubscribe();
+      });
+
+
+    }
+  }
+
+
+
+
+  fetchDateRangeProductData(event?: any) {
+    if (this.dateRangeProductForm.valid && !this.dateRangeProductForm.errors) {
+      const strDte = new Date(this.dateRangeProductForm.value.startDate).toISOString();
+      const endDte = new Date(this.dateRangeProductForm.value.endDate).toISOString();
+      const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=product&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', url);
+      const subscriber = this.httpService.httpRequest({
+        method: 'GET',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.productListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        subscriber.unsubscribe();
+      }, failure => {
+        subscriber.unsubscribe();
+      });
+    }
+  }
+
+
+  fetchDateRangeQueryData(event?: any) {
+    if (this.dateRangeQueryForm.valid && !this.dateRangeQueryForm.errors) {
+      const strDte = new Date(this.dateRangeQueryForm.value.startDate).toISOString();
+      const endDte = new Date(this.dateRangeQueryForm.value.endDate).toISOString();
+      const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=queries&strdate=${strDte}&enddate=${endDte}`;
+      console.log('fetching api url', url);
+      const subscriber = this.httpService.httpRequest({
+        method: 'GET',
+        url,
+      }).subscribe(response => {
+        console.log('response', response);
+        if (response.data) {
+          this.queryListData = response.data;
+        } else {
+          console.log('no data found in response.');
+        }
+        subscriber.unsubscribe();
+      }, failure => {
+        subscriber.unsubscribe();
+      });
+    }
+  }
+
+/*  getFirebaseData(data, user) {
+    this.loader = true;
+    firebase.database().ref('users' + '/' + data).once('value').then(function (snapshot) {
+      user = snapshot.val();
+
+    }).then(sucess => {
+      this.loader = false;
+      this.formdata = user;
+
+    });
+  } */
+
+ /* onSubmit(formData) {
+    console.log(formData);
+    if (formData.valid) {
+      firebase.database().ref('users' + '/' + this.name.uid).set(formData.value).then(
+        (success) => {
+          this.formdata = {};
+
+          this.getFirebaseData(this.name.uid, this.user);
+          this.router.navigate(['/pages/dashboard']);
+        }).catch(
+        (err) => {
+          console.log(err);
+        });
+
+    }
+  } */
+
+  ngOnDestroy() {
+    if (this.dateRangeFormSub) { this.dateRangeFormSub.unsubscribe(); }
   }
 }
+
+
