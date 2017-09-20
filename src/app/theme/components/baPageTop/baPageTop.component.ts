@@ -14,10 +14,22 @@ export class BaPageTop {
   public isScrolled:boolean = false;
   public isMenuCollapsed:boolean = false;
 
-  constructor(public af: AngularFireAuth,private router: Router,private _state:GlobalState) {
+  authUser: any;
+  loader: boolean;
+
+  constructor(public af: AngularFireAuth, private router: Router, private _state:GlobalState) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
+      this.af.authState.subscribe(auth => {
+      if (auth) {
+        this.authUser = auth;
+        this.loader = true;
+       // this.getFirebaseData(this.authUser.uid, user);
+      }
     });
+
+  });
+
   }
   public signout(){
 
@@ -32,5 +44,24 @@ export class BaPageTop {
 
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
+  }
+
+  getProfileImage() {
+    firebase.database().ref(`users/${this.authUser.uid}/imageurl`).once('value').then(function (snapshot) {
+   //   user = snapshot.val();
+    }).then(sucess => {
+
+    });
+  }
+
+  getFirebaseData(data, user) {
+    this.loader = true;
+    firebase.database().ref(`users/${data}`).once('value').then(function (snapshot) {
+      user = snapshot.val();
+    }).then(sucess => {
+      this.loader = false;
+     // this.formdata = user;
+
+    });
   }
 }

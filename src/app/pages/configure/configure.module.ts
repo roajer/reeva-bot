@@ -8,6 +8,7 @@ import { ConfigureComponent } from './configure.component';
 import { routing } from './configure.routing';
 import { ClientConfig, GoogleApiModule, NG_GAPI_CONFIG } from 'ng-gapi';
 import { UploadService } from './upload.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 const gapiClientConfig: ClientConfig = {
   clientId: '251188364704-v9eajm5hjh3fgrmjp7i964t7076d4ujl.apps.googleusercontent.com',
@@ -36,6 +37,7 @@ const gapiClientConfig: ClientConfig = {
   providers: [
     userdata,
     UploadService,
+    NgbActiveModal
   ],
 })
 export class ConfigureModule {}

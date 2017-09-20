@@ -1,0 +1,28 @@
+@media screen and (max-width: 1620px) {
+.success-modal .modal-content
+{
+    width: 80% !important;
+    height: 90px !important;
+    padding: 25px;
+    background-color: #CDF1C0;
+    color: #37D182;
+    font-size : 18px;
+    font-weight: bold;
+    border-color:#37D182;
+    border-width:3px;
+}
+
+
+.failed-modal .modal-content
+{
+    width: 80% !important;
+    height: 90px !important;
+    padding: 25px;
+    background-color: #FAB6B6;
+    color: #FA5C5C;
+    font-size: 18px;
+    font-weight: bold;
+    border-color: #FA5C5C;
+    border-width: 3px;
+}
+}

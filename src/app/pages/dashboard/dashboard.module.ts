@@ -23,6 +23,8 @@ import { TodoService } from './todo/todo.service';
 import { TrafficChartService } from './trafficChart/trafficChart.service';
 import { UsersMapService } from './usersMap/usersMap.service';
 
+import { D3Service } from 'd3-ng2-service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { UsersMapService } from './usersMap/usersMap.service';
     TodoService,
     TrafficChartService,
     UsersMapService,
-    userdata
+    userdata,
+    D3Service
   ]
 })
 export class DashboardModule {}

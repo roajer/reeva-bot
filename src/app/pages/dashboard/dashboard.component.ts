@@ -8,12 +8,18 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { HttpService } from '../../_service/http.service';
 
+import { D3Service, D3, Selection } from 'd3-ng2-service';
+
+
 @Component({
   selector: 'dashboard',
   styleUrls: ['./dashboard.scss'],
   templateUrl: './dashboard.html',
 })
 export class Dashboard implements OnInit, OnDestroy {
+
+  private d3: D3;
+
   emailsListData: any[] = [];
   topicListData: any[] = [];
 
@@ -44,12 +50,17 @@ export class Dashboard implements OnInit, OnDestroy {
   formdata: any = {};
   name: any;
   loader: boolean;
+
   constructor(
     public user: userdata,
     public af: AngularFireAuth,
     private router: Router,
     private httpService: HttpService,
+    d3Service: D3Service
   ) {
+
+    this.d3 = d3Service.getD3();
+
     this.af.authState.subscribe(auth => {
       if (auth) {
         this.name = auth;
@@ -205,6 +216,42 @@ export class Dashboard implements OnInit, OnDestroy {
         subscriber.unsubscribe();
       });
     }
+  }
+
+  getcsv(queryData) {
+    //this.emailsListData
+let csvArray = '';
+for (let m of this.emailsListData) {
+
+}
+const newArray = this.emailsListData.map(o => {
+  return { name: o.userName, email: o.emailID, date: o.date };
+});
+    let csvData = this.d3.csvFormat(newArray);
+
+    console.log(csvData);
+let myBlob: Blob = new Blob([csvData], { type: 'text/csv' });
+ let fileURL = URL.createObjectURL(myBlob);
+
+  if(navigator.msSaveOrOpenBlob) {
+        navigator.msSaveBlob(myBlob, 'reeva.csv');
+    } else {
+        let a = document.createElement('a');
+        a.href = fileURL;
+        a.download = 'reeva.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    window.URL.revokeObjectURL(fileURL);
+
+    // Cross your fingers at this point and pray whatever you're used to pray
+    //window.open(fileURL);
+/*  for (let entry of queryData) {
+    let csvString = '';
+    csvString = csvString + queryData.userName + ",";
+    console.log(entry); // 1, "string", false
+    } */
   }
 
 /*  getFirebaseData(data, user) {

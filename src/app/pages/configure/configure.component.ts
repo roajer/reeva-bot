@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ViewEncapsulation} from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
@@ -7,26 +7,23 @@ import { userdata } from '../././_model/userdata';
 import { NgUploaderOptions } from 'ngx-uploader';
 import { UploadService } from './upload.service';
 import { Upload } from './upload.class';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'configure',
   templateUrl: './configure.component.html',
-  styleUrls: ['./configure.component.scss']
-})
+  styleUrls: ['./configure.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+ })
 export class ConfigureComponent implements OnInit {
-
   formdata: any = {};
   authUser: any;
   loader: boolean;
-
-  formObject: any;
-
   public error: any;
-
-
+  content : any ='Data Saved';
   selectedFile: File;
   currentUpload: any;
-
+  modalRef : any;
   public defaultPicture = 'assets/img/theme/no-photo.png';
   public profilePicture = 'assets/img/app/profile/Nasta.png';
   public uploaderOptions: NgUploaderOptions = {
@@ -36,18 +33,24 @@ export class ConfigureComponent implements OnInit {
 
   constructor(public user: userdata, public af: AngularFireAuth,
     private router: Router, private db: AngularFireDatabase,
-    private uploadService: UploadService) {
+    private uploadService: UploadService,
+    private modalService: NgbModal) {
     this.formdata.photoURL = this.profilePicture;
     this.af.authState.subscribe(auth => {
       if (auth) {
         this.authUser = auth;
         this.loader = true;
         this.getFirebaseData(this.authUser.uid, user);
-
-       }
+      }
     });
   }
+ openModal(content,cssClass) {
+  this.modalRef = this.modalService.open(content , { windowClass:cssClass });
+   setTimeout(() => { this.modalRef.close()
+   },1500);
 
+
+  }
   ngOnInit() {
 
   }
@@ -86,18 +89,11 @@ export class ConfigureComponent implements OnInit {
 
   getFirebaseData(data, user) {
     this.loader = true;
-
     firebase.database().ref(`users/${data}`).once('value').then(function (snapshot) {
       user = snapshot.val();
     }).then(sucess => {
       this.loader = false;
       this.formdata = user;
-     /* this.formdata.subscribe(d => {
-        this.formObject = user;
-      }); */
-     // this.formdata.subscribe(d => {user = d});
-
-
 
     });
   }
@@ -105,15 +101,17 @@ export class ConfigureComponent implements OnInit {
   onSubmit(formData) {
     this.updateProfilePicture(); // update picture (if changed)
     if (formData.valid) {
-      const _formData = formData.value;
+      const _formData = this.formdata;
       firebase.database().ref(`users/${this.authUser.uid}`)
         .set(_formData)
         .then((success) => {
-         // this.formdata = {};
+
           this.getFirebaseData(this.authUser.uid, this.user);
           this.router.navigate(['/pages/configure']);
+          this.openModal(this.content,'success-modal');
         }).catch((err) => {
           console.log(err);
+          this.openModal('Failed, Try Again','failed-modal');
         });
     }
   }

@@ -1,10 +1,11 @@
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { userdata } from '../././_model/userdata';
 import { IntegrationsComponent } from './integrations.component';
+import { MailChimpComponent } from './mailchimpauthorization.component';
 import { routing } from './integrations.routing';
 
 
@@ -14,10 +15,11 @@ import { routing } from './integrations.routing';
     routing,
   ],
   declarations: [
-    IntegrationsComponent
+    IntegrationsComponent,
+    MailChimpComponent
   ],
   providers: [
 
   ]
 })
-export class IntegrationsModule {}
+export class IntegrationsModule { }
