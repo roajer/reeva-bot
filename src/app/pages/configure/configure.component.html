@@ -1,12 +1,12 @@
 <div class="row">
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-
+   
   </div>
   <div class="modal-body">
-    <p>Saved</p>
+    <p>Data Saved.</p>
   </div>
-
+  
 </ng-template>
 
   <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="Configure your chat" baCardClass="traffic-panel ">
@@ -15,22 +15,22 @@
     <form class="form-horizontal" #formData='ngForm' action="#" novalidate="" (ngSubmit)="onSubmit(formData)" class="ng-untouched ng-pristine ng-valid">
       <div class="form-group row">
         <label for="inputEmail3" class="col-sm-3 form-control-label">Blog name</label>
-        <div class="col-sm-9">
-          <input type="text" placeholder="Blog Name" [(ngModel)]="formdata.blogname" name="blogname" value="{{formdata&&formdata.blogname}}"
+        <div class="col-sm-9">  
+          <input type="text" placeholder="Blog Name" [ngModel]="confdata?.blogname" (ngModelChange)="confdata ? confdata.blogname = $event : null" name="blogname" 
             class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 form-control-label">Blog URL</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Blog Url" [(ngModel)]="formdata.blogurl" name="blogurl" value="{{formdata&&formdata.blogurl}}"
+          <input type="text" placeholder="Blog Url" [ngModel]="confdata?.blogurl" (ngModelChange)=" confdata.blogurl = $event"  name="blogurl" 
             class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="inputPopup" class="col-sm-3 form-control-label">Pop Up Message</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Popup message for your chat" [(ngModel)]="formdata.popupmsg" value="{{formdata&&formdata.popupmsg}}"
+          <input type="text" placeholder="Popup message for your chat" (ngModelChange)="confdata ? confdata.popupmsg = $event : null" [ngModel]="confdata?.popupmsg" 
             name="popupmsg" class="form-control">
         </div>
       </div>
@@ -43,20 +43,18 @@
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 form-control-label">Your Name</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Name" [(ngModel)]="formdata.name" name="name" value="{{formdata&&formdata.name}}" class="form-control">
+          <input type="text" placeholder="Name" (ngModelChange)="confdata ? confdata.name = $event : null" [ngModel]="confdata?.name" name="name"  class="form-control">
         </div>
       </div>
-
-      <div class="form-group row">
+     <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 form-control-label">Profile Image</label>
         <div class="col-sm-6">
           <ba-card cardTitle="Picture Uploader" baCardClass="with-scroll">
-            <ba-picture-uploader  [picture]="formdata.photoURL" [defaultPicture]=" formdata.photoURL ? formdata.photoURL : defaultPicture" [uploaderOptions]="uploaderOptions" (onPictureChanged)="onPictureChanged($event)"></ba-picture-uploader>
+            <ba-picture-uploader  [picture]="confdata?.photoURL ? confdata.photoURL :''" [defaultPicture]=" confdata?.photoURL ? confdata.photoURL : defaultPicture" [uploaderOptions]="uploaderOptions" (onPictureChanged)="onPictureChanged($event)"></ba-picture-uploader>
           </ba-card>
         </div>
       </div>
-
-      <div class="form-group row">
+     <div class="form-group row">
         <div class="offset-sm-3 col-sm-9">
           <button type="submit" [disabled]="!formData.valid" class="btn btn-success margin10">Update</button>
         </div>
@@ -67,5 +65,53 @@
   </ba-card>
 </div>
 
-<!--i class="socicon socicon-google" (click)="loginGoogle()" title="{{'login.share_on_google_plus' | translate}}"></i-->
+<i class="socicon socicon-google" (click)="loginGoogle()" title="{{'login.share_on_google_plus' | translate}}"></i>
 
+
+<h1>Hello Analytics Reporting API V4</h1>
+
+<!-- The Sign-in button. This will run `queryReports()` on success. -->
+<p class="g-signin2" data-onsuccess="queryReports"></p>
+
+<!-- The API response will be printed here. -->
+<textarea cols="80" rows="20" id="query-output"></textarea>
+
+<script>
+  // Replace with your view ID.
+  var VIEW_ID = '86631500';
+
+  // Query the API and print the results to the page.
+  function queryReports() {
+    gapi.client.request({
+      path: '/v4/reports:batchGet',
+      root: 'https://analyticsreporting.googleapis.com/',
+      method: 'POST',
+      body: {
+        reportRequests: [
+          {
+            viewId: VIEW_ID,
+            dateRanges: [
+              {
+                startDate: '7daysAgo',
+                endDate: 'today'
+              }
+            ],
+            metrics: [
+              {
+                expression: 'ga:sessions'
+              }
+            ]
+          }
+        ]
+      }
+    }).then(displayResults, console.error.bind(console));
+  }
+
+  function displayResults(response) {
+    var formattedJson = JSON.stringify(response.result, null, 2);
+    document.getElementById('query-output').value = formattedJson;
+  }
+
+</script>
+
+<!-- Load the JavaScript API client and Sign-in library. -->

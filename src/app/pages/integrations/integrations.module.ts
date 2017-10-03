@@ -7,6 +7,7 @@ import { userdata } from '../././_model/userdata';
 import { IntegrationsComponent } from './integrations.component';
 import { MailChimpComponent } from './mailchimpauthorization.component';
 import { routing } from './integrations.routing';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import { routing } from './integrations.routing';
     MailChimpComponent
   ],
   providers: [
-
+    NgbActiveModal
   ]
 })
 export class IntegrationsModule { }

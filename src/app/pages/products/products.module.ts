@@ -10,7 +10,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { TagInputModule } from 'ngx-chips';
 
-import { SmartTablesService } from './smartTables/smartTables.service';
+
 
 
 @NgModule({

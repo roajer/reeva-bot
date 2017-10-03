@@ -1,4 +1,4 @@
-<form [formGroup]="myForm" novalidate (ngSubmit)="submit()">
+<form [formGroup]="myForm" novalidate (ngSubmit)="submit(i)">
   <div formArrayName="products">
     <div *ngFor="let product of myForm.controls.products.controls; let i=index">
       <ba-card cardTitle="Product{{i + 1}}" baCardClass="with-scroll" [formGroupName]="i">
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div>
-          <button type="submit" class="btn btn-success" [disabled]="myForm?.invalid">Save</button>
+          <button type="button" class="btn btn-success" [disabled]="myForm?.invalid" (click)="submit(i)">Save</button>
           <button type="button" class="btn btn-danger" *ngIf="myForm.controls.products.controls.length > 1" (click)="removeAddress(i)">Delete Product</button>
         </div>
       </ba-card>
