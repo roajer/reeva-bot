@@ -16,7 +16,9 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   encapsulation: ViewEncapsulation.None,
  })
 export class ConfigureComponent implements OnInit {
-  formdata: any = {};
+  public formdata: any = {};
+  public confdata: any = {};
+  private basePath: string = '/uploads';
   authUser: any;
   loader: boolean;
   public error: any;
@@ -35,13 +37,15 @@ export class ConfigureComponent implements OnInit {
     private router: Router, private db: AngularFireDatabase,
     private uploadService: UploadService,
     private modalService: NgbModal) {
-    this.formdata.photoURL = this.profilePicture;
+    this.confdata.photoURL = this.profilePicture;
     this.af.authState.subscribe(auth => {
       if (auth) {
         this.authUser = auth;
         this.loader = true;
         this.getFirebaseData(this.authUser.uid, user);
       }
+
+
     });
   }
  openModal(content,cssClass) {
@@ -89,11 +93,21 @@ export class ConfigureComponent implements OnInit {
 
   getFirebaseData(data, user) {
     this.loader = true;
+    let imgUrl;
+    let filename = 'logo.png';
     firebase.database().ref(`users/${data}`).once('value').then(function (snapshot) {
       user = snapshot.val();
     }).then(sucess => {
       this.loader = false;
-      this.formdata = user;
+      this.confdata = user ? user : {};
+      firebase.storage().ref().child(`${this.basePath}/${user ?user.profileImg:''}`).getDownloadURL().then(function(url) {
+     imgUrl = url;
+      }).then(sucess => {
+
+      this.confdata.photoURL =imgUrl;
+      });
+      //this.uploadService.downloadprofImg().then(function(d){}
+      // = "https://firebasestorage.googleapis.com/v0/b/reeva-d9399.appspot.com/o/uploads%2Flogo.png?alt=media&token=27262486-8a10-49ba-a351-de0326914e0f";
 
     });
   }
@@ -101,7 +115,8 @@ export class ConfigureComponent implements OnInit {
   onSubmit(formData) {
     this.updateProfilePicture(); // update picture (if changed)
     if (formData.valid) {
-      const _formData = this.formdata;
+      const _formData = this.confdata;
+      _formData.profileImg = this.selectedFile.name;
       firebase.database().ref(`users/${this.authUser.uid}`)
         .set(_formData)
         .then((success) => {
