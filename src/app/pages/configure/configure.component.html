@@ -1,12 +1,12 @@
 <div class="row">
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-   
+
   </div>
   <div class="modal-body">
     <p>Data Saved.</p>
   </div>
-  
+
 </ng-template>
 
   <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="Configure your chat" baCardClass="traffic-panel ">
@@ -15,22 +15,22 @@
     <form class="form-horizontal" #formData='ngForm' action="#" novalidate="" (ngSubmit)="onSubmit(formData)" class="ng-untouched ng-pristine ng-valid">
       <div class="form-group row">
         <label for="inputEmail3" class="col-sm-3 form-control-label">Blog name</label>
-        <div class="col-sm-9">  
-          <input type="text" placeholder="Blog Name" [ngModel]="confdata?.blogname" (ngModelChange)="confdata ? confdata.blogname = $event : null" name="blogname" 
+        <div class="col-sm-9">
+          <input type="text" placeholder="Blog Name" [ngModel]="confdata?.blogname" (ngModelChange)="confdata ? confdata.blogname = $event : null" name="blogname"
             class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 form-control-label">Blog URL</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Blog Url" [ngModel]="confdata?.blogurl" (ngModelChange)=" confdata.blogurl = $event"  name="blogurl" 
+          <input type="text" placeholder="Blog Url" [ngModel]="confdata?.blogurl" (ngModelChange)=" confdata.blogurl = $event"  name="blogurl"
             class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="inputPopup" class="col-sm-3 form-control-label">Pop Up Message</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Popup message for your chat" (ngModelChange)="confdata ? confdata.popupmsg = $event : null" [ngModel]="confdata?.popupmsg" 
+          <input type="text" placeholder="Popup message for your chat" (ngModelChange)="confdata ? confdata.popupmsg = $event : null" [ngModel]="confdata?.popupmsg"
             name="popupmsg" class="form-control">
         </div>
       </div>
@@ -65,16 +65,17 @@
   </ba-card>
 </div>
 
+<!--
 <i class="socicon socicon-google" (click)="loginGoogle()" title="{{'login.share_on_google_plus' | translate}}"></i>
 
 
 <h1>Hello Analytics Reporting API V4</h1>
 
 <!-- The Sign-in button. This will run `queryReports()` on success. -->
-<p class="g-signin2" data-onsuccess="queryReports"></p>
+<!-- <p class="g-signin2" data-onsuccess="queryReports"></p>
 
 <!-- The API response will be printed here. -->
-<textarea cols="80" rows="20" id="query-output"></textarea>
+<!--<textarea cols="80" rows="20" id="query-output"></textarea>
 
 <script>
   // Replace with your view ID.

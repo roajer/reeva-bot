@@ -44,19 +44,19 @@ export class ConfigureComponent implements OnInit {
         this.loader = true;
         this.getFirebaseData(this.authUser.uid, user);
       }
-
-
+    
+      
     });
   }
  openModal(content,cssClass) {
   this.modalRef = this.modalService.open(content , { windowClass:cssClass });
    setTimeout(() => { this.modalRef.close()
-   },1500);
-
-
+   },1500); 
+    
+   
   }
-  ngOnInit() {
-
+  ngOnInit() { 
+ 
   }
 
   onPictureChanged(event: any) {
@@ -108,7 +108,7 @@ export class ConfigureComponent implements OnInit {
       });
       //this.uploadService.downloadprofImg().then(function(d){}
       // = "https://firebasestorage.googleapis.com/v0/b/reeva-d9399.appspot.com/o/uploads%2Flogo.png?alt=media&token=27262486-8a10-49ba-a351-de0326914e0f";
-
+      
     });
   }
 
@@ -120,7 +120,7 @@ export class ConfigureComponent implements OnInit {
       firebase.database().ref(`users/${this.authUser.uid}`)
         .set(_formData)
         .then((success) => {
-
+          
           this.getFirebaseData(this.authUser.uid, this.user);
           this.router.navigate(['/pages/configure']);
           this.openModal(this.content,'success-modal');

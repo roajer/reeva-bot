@@ -224,9 +224,20 @@ let csvArray = '';
 for (let m of this.emailsListData) {
 
 }
-const newArray = this.emailsListData.map(o => {
+/*const newArray = this.emailsListData.map(o => {
+  return { name: o.userName, email: o.emailID, date: o.date };
+}); */
+
+
+
+var newArray = this.emailsListData.map(o => {
   return { name: o.userName, email: o.emailID, date: o.date };
 });
+
+
+//newArray=newArray.splice(0,1);
+console.log(newArray);
+
     let csvData = this.d3.csvFormat(newArray);
 
     console.log(csvData);

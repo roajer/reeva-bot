@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit {
 myForm = new FormGroup({
   	productURL: new FormControl('',  Validators.pattern('^[a-zA-Z]+$'))
 });
-
+  
 autocompleteItems: any;
  modalRef : any;
   currentProd : string ="";
@@ -39,7 +39,7 @@ autocompleteItems: any;
 
  constructor(public user: productsdata, public af: AngularFireAuth, private router: Router,
      private _fb: FormBuilder, private http: Http, private modalService: NgbModal) {
-
+    
      this.af.authState.subscribe(auth => {
       if(auth) {
         this.name = auth;
@@ -52,9 +52,9 @@ autocompleteItems: any;
  openModal(content,cssClass) {
   this.modalRef = this.modalService.open(content , { windowClass:cssClass });
    setTimeout(() => { this.modalRef.close()
-   },1500);
-
-
+   },1500); 
+    
+   
   }
 
  extractTagNameFromJson(res: Response) {
@@ -76,9 +76,9 @@ autocompleteItems: any;
         snapshot.forEach(function(child){
         var key = child.key;
         var value = child.val();
-        if(value.products != undefined &&  value.products[0] != undefined){
-          value.products[0].key = key;
-          arrayP.push(value.products[0]);
+        if(value && value!= undefined){
+          value.key = key;
+          arrayP.push(value);
         }
        })
       }).then(sucess => {
@@ -106,7 +106,7 @@ autocompleteItems: any;
   }
     this.loader = false;
    this.formdata = user;
-
+  
   });
  }
 
@@ -114,7 +114,7 @@ autocompleteItems: any;
 
     if(formData.valid)
    {
-
+   
     firebase.database().ref('products'+'/'+this.name.uid).push().set(formData.value).then(
         (success) => {
         this.getFirebaseData(this.name.uid, this.user);
@@ -147,7 +147,7 @@ ngOnInit() {
 }
 
 initializeProducts() {
-  let uripattern ="/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i";
+  let uripattern ="/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i"; 
  	return this._fb.group({
 			productName: ['', Validators.required],
 			productDescription: ['', Validators.required],
@@ -185,13 +185,13 @@ submit(i:number) {
      const control = <FormArray>this.myForm.controls['products'];
          if(i != undefined)
         this.currentProd = control.value[i].key;
-  if(this.currentProd == undefined || (this.currentProd !=undefined && this.currentProd.length == 0) )
+  if(this.currentProd == undefined || (this.currentProd !=undefined && this.currentProd.length == 0) ) 
     {
-
+    
       product.products.push(control.value[i]);
-      firebase.database().ref('products'+'/'+this.name.uid).push(product).then((snap) => {
+      firebase.database().ref('products'+'/'+this.name.uid).push(control.value[i]).then((snap) => {
       }).then(sucess => {
-
+        
         this.getFirebaseData(this.name.uid, this.user);
         this.router.navigate(['/pages/products']);
          this.openModal('Created new product','success-modal');
@@ -200,10 +200,10 @@ submit(i:number) {
         console.log(err);
       });
    }
-    else
+    else 
       {
         product.products.push(control.value[i]);
-         firebase.database().ref('products'+'/'+this.name.uid +'/'+this.currentProd).update(product).then((snap) => {
+         firebase.database().ref('products'+'/'+this.name.uid +'/'+this.currentProd).update(control.value[i]).then((snap) => {
          this.getFirebaseData(this.name.uid, this.user);
          this.router.navigate(['/pages/products']);
          this.openModal('Updated current product','success-modal');
@@ -211,7 +211,7 @@ submit(i:number) {
         (err) => {
         console.log(err);
       });
-
+      
       }
   }
    console.log('Reactive Form submitted: ', this.myForm.value);
