@@ -1,31 +1,49 @@
 <div class="row">
 
-  <ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-
-  </div>
-  <div class="modal-body">
-    <form class="form-horizontal" #formData='ngForm' action="#" novalidate="" (ngSubmit)="onSubmit(formData)" class="ng-untouched ng-pristine ng-valid">
-      <div class="form-group row">
-        <label for="inputEmail3" class="col-sm-3 form-control-label">Blog name</label>
-        <div class="col-sm-9">
-          <input type="text" placeholder="Blog Name" [(ngModel)]="formdata.blogname" name="blogname" value="{{formdata&&formdata.blogname}}"
-            class="form-control">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputPassword3" class="col-sm-3 form-control-label">Blog URL</label>
-        <div class="col-sm-9">
-          <input type="text" placeholder="Blog Url" [(ngModel)]="formdata.blogurl" name="blogurl" value="{{formdata&&formdata.blogurl}}"
-            class="form-control">
-        </div>
-      </div>
-    </form>
-  </div>
-</ng-template>
-
   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
     <!-- <pie-chart></pie-chart> -->
+
+    <ng-template #mailerLitecontent let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Mailer Lite Integration</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col-md-12">
+          <label for="Mailer">Please Enter API Key here..</label>
+          <input #apiKey type="text" placeholder="API Key" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" (click)="c(apiKey.value)" [disabled]="!apiKey.value">Connect</button>
+        <button type="button" class="btn btn-danger" (click)="d()">Close</button>
+      </div>
+    </ng-template>
+
+    <ng-template #mailChimpContent let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Mail Chimp Integration</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col-md-12">
+          <!-- <ul *ngIf="items.length">
+            <li *ngFor="let item of items">
+              {{item}}
+            </li>
+          </ul> -->
+          <input #apiKey type="text" placeholder="API Key" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" (click)="c(apiKey.value)">Connect</button>
+        <button type="button" class="btn btn-danger" (click)="d()">Close</button>
+      </div>
+    </ng-template>
 
     <ba-card class="pie-chart-item-container col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-12">
 
@@ -33,9 +51,16 @@
         <img src="{{ ( 'app/integration/mailchimp.jpg' | baAppPicture ) }}" />
         <div class="description">
           <div translate></div>
-          <div class="description-stats"><button (click)="connectMailChimp()" type="submit" class="btn btn-outline-primary margin10">Configure</button></div>
+          <div class="description-stats"><button [disabled]="emailProvider == 'mailchimp'" (click)="connectMailChimp(mailChimpContent)" type="submit" class="btn btn-outline-primary margin10">Configure</button></div>
         </div>
+        <ng-template #content let-c="close" let-d="dismiss">
+          <div class="modal-header">
+          </div>
+          <div class="modal-body">
+            <p>Saved</p>
+          </div>
 
+        </ng-template>
       </div>
 
     </ba-card>
@@ -46,7 +71,7 @@
         <img src="{{ ( 'app/integration/mailerlite.jpg' | baAppPicture ) }}" />
         <div class="description">
           <div translate></div>
-          <div class="description-stats"><button (click)="connectMailerLite()" type="submit" class="btn btn-outline-primary margin10">Configure</button></div>
+          <div class="description-stats"><button [disabled]="emailProvider == 'mailerlite'" (click)="connectMailerLite(mailerLitecontent)" type="submit" class="btn btn-outline-primary margin10">{{emailProvider == 'mailerlite'? 'Already Configured!': 'Configure'}}</button></div>
         </div>
 
       </div>

@@ -5,9 +5,7 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { NgaModule } from '../../theme/nga.module';
 import { userdata } from '../././_model/userdata';
 import { IntegrationsComponent } from './integrations.component';
-import { MailChimpComponent } from './mailchimpauthorization.component';
 import { routing } from './integrations.routing';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -17,10 +15,6 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
   ],
   declarations: [
     IntegrationsComponent,
-    MailChimpComponent
   ],
-  providers: [
-    NgbActiveModal
-  ]
 })
 export class IntegrationsModule { }
