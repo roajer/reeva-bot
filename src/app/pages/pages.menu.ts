@@ -50,6 +50,18 @@ export const PAGES_MENU = [
           }
         }
       },
+      {
+        path: 'optin',
+        data: {
+          menu: {
+            title: 'general.menu.optin',
+            icon: 'ion-android-mail',
+            selected: false,
+            expanded: false,
+            order: 0
+          }
+        }
+      },
      /* {
         path: 'integration',
         data: {

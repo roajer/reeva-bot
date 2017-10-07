@@ -1,0 +1,40 @@
+<form [formGroup]="myForm" novalidate (ngSubmit)="submit(i)">
+  <div formArrayName="optin">
+    <div *ngFor="let optin of myForm.controls.optin.controls; let i=index">
+      <ba-card cardTitle="optin{{i + 1}}" baCardClass="with-scroll" [formGroupName]="i">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Optin Name</label>
+            <input type="text" class="form-control" ([ngModel])="formdata.optinName" formControlName="optinName">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Optin Description</label>
+            <input type="text" class="form-control" ([ngModel])="formdata.optinDescription" formControlName="optinDescription">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Optin Offer URL</label>
+            <input type="text"  id="optinURL" class="form-control" ([ngModel])="formdata.optinURL" formControlName="optinURL">
+
+          </div>
+          <div class="form-group col-md-6">
+            <label>Email integration</label>
+            <tag-input [onlyFromAutocomplete]="true" secondaryPlaceholder ="+ Tag" placeholder="+ Tag" ([ngModel])="formdata.optinTag" formControlName="optinTag">
+              <tag-input-dropdown [showDropdownIfEmpty]="true"
+              [autocompleteObservable]="autocompleteItems">
+              </tag-input-dropdown>
+            </tag-input>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="btn btn-success" [disabled]="myForm?.invalid" (click)="submit(i)">Save</button>
+          <button type="button" class="btn btn-danger" *ngIf="myForm.controls.optin.controls.length > 1" (click)="removeAddress(i)">Delete Product</button>
+        </div>
+      </ba-card>
+    </div>
+  </div>
+</form>
+<div>
+  <button type="button" class="btn btn-danger" (click)="addOptin()">Add New Optin</button>
+</div>
