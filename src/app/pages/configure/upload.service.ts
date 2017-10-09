@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import * as firebase from 'firebase';
+
 import { Upload } from './upload.class';
 
 @Injectable()
 export class UploadService {
 
-    constructor(private db: AngularFireDatabase) { }
+  authUser: any;
+  loader: boolean;
+    constructor(private db: AngularFireDatabase) {
 
+    }
+
+    private uid: string = firebase.auth().currentUser.uid;
     private basePath: string = '/uploads';
     uploads: FirebaseListObservable<Upload[]>;
 
@@ -56,12 +63,17 @@ export class UploadService {
                 // upload success
                 upload.imageurl = uploadTask.snapshot.downloadURL;
                 upload.imagename = upload.file.name;
-                this.saveFileData(upload);
+              //  this.saveFileData(upload);
+
+              firebase.database().ref('users'+'/'+this.uid +'/').update(upload).then((snap) => {}).catch(
+               (err) => {
+               console.log(err);
+             });
+
                 return undefined;
             },
         );
     }
-
 
     // Writes the file details to the realtime db
     private saveFileData(upload: Upload) {

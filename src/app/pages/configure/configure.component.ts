@@ -37,26 +37,24 @@ export class ConfigureComponent implements OnInit {
     private router: Router, private db: AngularFireDatabase,
     private uploadService: UploadService,
     private modalService: NgbModal) {
-    this.confdata.photoURL = this.profilePicture;
+    this.confdata.imageurl = this.profilePicture;
     this.af.authState.subscribe(auth => {
       if (auth) {
         this.authUser = auth;
         this.loader = true;
         this.getFirebaseData(this.authUser.uid, user);
       }
-    
-      
     });
   }
  openModal(content,cssClass) {
   this.modalRef = this.modalService.open(content , { windowClass:cssClass });
    setTimeout(() => { this.modalRef.close()
-   },1500); 
-    
-   
+   },1500);
+
+
   }
-  ngOnInit() { 
- 
+  ngOnInit() {
+
   }
 
   onPictureChanged(event: any) {
@@ -73,8 +71,9 @@ export class ConfigureComponent implements OnInit {
 
   updateProfilePicture() {
     this.uploadPicture(); // upload picture (if changed)
-    const uploadOpts = this.currentUpload && this.currentUpload.url ? { photoURL: this.currentUpload.url } : null;
-    if (uploadOpts) { // upload photoURL for user as well..
+    const uploadOpts = this.currentUpload && this.currentUpload.url ? { imageurl: this.currentUpload.url } : null;
+    console.log('uploadOpts', uploadOpts);
+    if (uploadOpts) { // upload imageurl for user as well..
       firebase.database().ref(`users/${this.authUser.uid}`)
         .set(uploadOpts)
         .then((success) => {
@@ -100,15 +99,19 @@ export class ConfigureComponent implements OnInit {
     }).then(sucess => {
       this.loader = false;
       this.confdata = user ? user : {};
-      firebase.storage().ref().child(`${this.basePath}/${user ?user.profileImg:''}`).getDownloadURL().then(function(url) {
+/*
+
+      firebase.storage().ref().child(`${this.basePath}/${user ?user.imagename:''}`).getDownloadURL().then(function(url) {
      imgUrl = url;
       }).then(sucess => {
-
-      this.confdata.photoURL =imgUrl;
+      this.confdata.imageurl =imgUrl;
       });
+
+      */
+
       //this.uploadService.downloadprofImg().then(function(d){}
       // = "https://firebasestorage.googleapis.com/v0/b/reeva-d9399.appspot.com/o/uploads%2Flogo.png?alt=media&token=27262486-8a10-49ba-a351-de0326914e0f";
-      
+
     });
   }
 
@@ -116,11 +119,15 @@ export class ConfigureComponent implements OnInit {
     this.updateProfilePicture(); // update picture (if changed)
     if (formData.valid) {
       const _formData = this.confdata;
-      _formData.profileImg = this.selectedFile.name;
-      firebase.database().ref(`users/${this.authUser.uid}`)
+
+      if(this.selectedFile != null){
+        console.log('url', );
+        _formData.imagename = this.selectedFile.name;
+      }
+         firebase.database().ref(`users/${this.authUser.uid}`)
         .set(_formData)
         .then((success) => {
-          
+
           this.getFirebaseData(this.authUser.uid, this.user);
           this.router.navigate(['/pages/configure']);
           this.openModal(this.content,'success-modal');

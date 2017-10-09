@@ -92,7 +92,7 @@ export class Dashboard implements OnInit, OnDestroy {
     */
       const strDte = new Date(this.dateRangeForm.value.startDate).toISOString();
       const endDte = new Date(this.dateRangeForm.value.endDate).toISOString();
-      const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&strdate=${strDte}&enddate=${endDte}`;
+      const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
       console.log('fetching api url', url);
       const subscriber = this.httpService.httpRequest({
         method: 'GET',
@@ -111,7 +111,7 @@ export class Dashboard implements OnInit, OnDestroy {
 
 
 
-      const topicurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=topic&strdate=${strDte}&enddate=${endDte}`;
+      const topicurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=topic&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
       console.log('fetching api url', topicurl);
       const topicsubscriber = this.httpService.httpRequest({
         method: 'GET',
@@ -129,7 +129,7 @@ export class Dashboard implements OnInit, OnDestroy {
       });
 
 
-      const producturl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=product&strdate=${strDte}&enddate=${endDte}`;
+      const producturl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=product&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
       console.log('fetching api url', producturl);
       const productsubscriber = this.httpService.httpRequest({
         method: 'POST',
@@ -147,7 +147,7 @@ export class Dashboard implements OnInit, OnDestroy {
       });
 
 
-      const queryurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=queries&strdate=${strDte}&enddate=${endDte}`;
+      const queryurl = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=queries&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
       console.log('fetching api url', queryurl);
       const queriessubscriber = this.httpService.httpRequest({
         method: 'POST',
