@@ -18,26 +18,47 @@ export class IntegrationsComponent implements OnInit {
   modalRef: NgbModalRef;
   private uid: string = firebase.auth().currentUser.uid;
   @ViewChild('mailChimpContent') mailChimpModal: ElementRef;
-  items = [];
+  // items = [];
+  list = [];
+  SelectedValue;
   emailProvider: string = "";
 
-  constructor(private _mailChimp: MailChimpService, private _activatedRoute: ActivatedRoute, private _router: Router,
+  constructor(private _mailChimpService: MailChimpService, private _activatedRoute: ActivatedRoute, private _router: Router,
     private _http: Http, private _modalService: NgbModal, private _mailerLiteService: MailerLiteService) { }
 
   ngOnInit() {
     let code = (new URL(location.href)).searchParams.get('code');
     if (code) {
-      this._mailChimp.getAccessToken(code).subscribe((listData: any) => {
-        console.log(listData);
-        this.items = listData;
-        const modalRef = this._modalService.open(this.mailChimpModal);
+      if (parent.window && parent.window.opener) {
+        parent.window.opener.location.replace(location.href);
+        window.close();
+      }
+      this._mailChimpService.getAccessToken(code).subscribe((listData: any) => {
+        this.list = listData;
+        this._modalService.open(this.mailChimpModal).result.then(result => {
+          if (this.SelectedValue) {
+            console.log(this.SelectedValue);
+            this._mailChimpService.saveListId(this.SelectedValue.id).then(result => {
+              this.resetAssets();
+              this.getUserData();
+              if (window.history.replaceState) {
+                window.history.replaceState({}, "", window.location.toString().replace(window.location.search, ""));
+              }
+            });
+          }
+        }).catch(err => {
+          if (window.history.replaceState) {
+            window.history.replaceState({}, "", window.location.toString().replace(window.location.search, ""));
+            this.resetAssets();
+          }
+        });
       });
     }
     this.getUserData();
   }
 
   connectMailChimp() {
-    this._mailChimp.connect();
+    this._mailChimpService.connect();
   }
 
   getUserData() {
@@ -48,14 +69,23 @@ export class IntegrationsComponent implements OnInit {
     });
   }
 
+
+  getList(apiKey) {
+    this._mailerLiteService.getDataList(apiKey).subscribe(value => this.list = value);
+  }
+
   connectMailerLite(content) {
-    const modalRef = this._modalService.open(content).result.then(result => {
-      if (result) {
-        this._mailerLiteService.saveAPIKey(result).then(result => console.log(result))
-          .catch(err => console.log(err));
-        // .subscribe(res => console.log(res));
-      }
+    this._modalService.open(content).result.then(result => {
+      this._mailerLiteService.saveAPIKey(result, this.SelectedValue.id).then(result => {
+        this.resetAssets();
+        this.getUserData();
+      }).catch(err => console.log(err));
     }).catch(err => console.log(err));
+  }
+
+  resetAssets() {
+    this.SelectedValue = '';
+    this.list = [];
   }
 
 }

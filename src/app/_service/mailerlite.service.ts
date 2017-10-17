@@ -15,11 +15,16 @@ export class MailerLiteService {
             .map(res => res.json());
     }
 
-    saveAPIKey(ApiKey) {
+    saveAPIKey(ApiKey, listId) {
         return firebase.database().ref(`/integrations/` + this.uid).set({
             emailProvider: 'mailerlite',
             access_token: ApiKey,
+            listId
         });
+    }
+
+    getDataList(ApiKey) {
+        return this.http.get('https://us-central1-reeva-d9399.cloudfunctions.net/mlGetListFunction?tokenid=' + ApiKey).map(res => res.json());
     }
 
 }

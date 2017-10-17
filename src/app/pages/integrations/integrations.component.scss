@@ -1,37 +1,42 @@
 .pie-chart-item-container {
-    position: relative;
-    padding: 0 15px;
-    float: left;
-    box-sizing: border-box;
+  position: relative;
+  padding: 0 15px;
+  float: left;
+  box-sizing: border-box;
 
-    .card {
-      height: 114px;
-    }
+  .card {
+    height: 114px;
   }
-  @media screen and (min-width: 1325px) {
-    .pie-chart-item-container {
-      max-width: 33%;
-      flex: 0 0 33%
-    }
+}
+@media screen and (min-width: 1325px) {
+  .pie-chart-item-container {
+    max-width: 33%;
+    flex: 0 0 33%
   }
-  @media screen and (min-width: 700px) and (max-width: 1325px)  {
-    .pie-chart-item-container {
-      max-width: 50%;
-      flex: 0 0 50%
-    }
+}
+@media screen and (min-width: 700px) and (max-width: 1325px)  {
+  .pie-chart-item-container {
+    max-width: 50%;
+    flex: 0 0 50%
   }
-  @media screen and (max-width: 700px)  {
-    .pie-chart-item-container {
-      max-width: 100%;
-      flex: 0 0 100%
-    }
+}
+@media screen and (max-width: 700px)  {
+  .pie-chart-item-container {
+    max-width: 100%;
+    flex: 0 0 100%
   }
+}
 
-  .pie-chart-item {
-    position: relative;
-    .chart-icon {
-      position: absolute;
-      right: 0;
-      top: 3px;
-    }
+.pie-chart-item {
+  position: relative;
+  .chart-icon {
+    position: absolute;
+    right: 0;
+    top: 3px;
   }
+}
+
+.selected{
+  background-color: #0275d8;
+  color: white;
+}

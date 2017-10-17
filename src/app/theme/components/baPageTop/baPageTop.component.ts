@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
-import {GlobalState} from '../../../global.state';
+import { GlobalState } from '../../../global.state';
 
 @Component({
   selector: 'ba-page-top',
@@ -11,30 +11,29 @@ import {GlobalState} from '../../../global.state';
 })
 export class BaPageTop {
 
-  public isScrolled:boolean = false;
-  public isMenuCollapsed:boolean = false;
+  public isScrolled: boolean = false;
+  public isMenuCollapsed: boolean = false;
+  imageUrl: string;
 
-  authUser: any;
-  loader: boolean;
-
-  constructor(public af: AngularFireAuth, private router: Router, private _state:GlobalState) {
+  constructor(public af: AngularFireAuth, private router: Router, private _state: GlobalState) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
-      this.af.authState.subscribe(auth => {
-      if (auth) {
-        this.authUser = auth;
-        this.loader = true;
-       // this.getFirebaseData(this.authUser.uid, user);
-      }
+    });
+    let localthis = this;
+    this.af.authState.subscribe(auth => {
+      firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once('value').then(function (snapshot) {
+        console.log(snapshot.val());
+        localthis.imageUrl = snapshot.val().imageurl;
+        // console.log(snapshot.val());
+      });
     });
 
-  });
-
   }
-  public signout(){
 
-     this.af.auth.signOut();
-     this.router.navigateByUrl('/login');
+  public signout() {
+
+    this.af.auth.signOut();
+    this.router.navigateByUrl('/login');
   }
   public toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
@@ -44,24 +43,5 @@ export class BaPageTop {
 
   public scrolledChanged(isScrolled) {
     this.isScrolled = isScrolled;
-  }
-
-  getProfileImage() {
-    firebase.database().ref(`users/${this.authUser.uid}/imageurl`).once('value').then(function (snapshot) {
-   //   user = snapshot.val();
-    }).then(sucess => {
-
-    });
-  }
-
-  getFirebaseData(data, user) {
-    this.loader = true;
-    firebase.database().ref(`users/${data}`).once('value').then(function (snapshot) {
-      user = snapshot.val();
-    }).then(sucess => {
-      this.loader = false;
-     // this.formdata = user;
-
-    });
   }
 }

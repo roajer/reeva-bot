@@ -19,18 +19,24 @@ export class MailChimpService {
   constructor(private _http: Http) { }
 
   connect() {
-    window.location.href = this.authorize_uri;
+    window.open(this.authorize_uri, '_blank', 'location=yes,height=570,width=520,scrollbars=yes');    // window.location.href = this.authorize_uri;
   }
 
   getAccessToken(code) {
     return this._http.get(this.access_token_uri + code).
       map(res => res.json())
-      .map(res => console.log('token res' + JSON.stringify(res)))
+      // .map(res => console.log('token res' + JSON.stringify(res)))
       .flatMap(() => this.getListData())
   }
 
   getListData() {
     return this._http.get(this.get_list_uri).map(res => res.json());
+  }
+
+  saveListId(listId) {
+    return firebase.database().ref(`/integrations/` + this.uid + '/').update({
+      listId
+    });
   }
 
 }
