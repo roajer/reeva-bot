@@ -56,4 +56,30 @@ constructor(public af: AngularFireAuth,private router: Router,fb:FormBuilder) {
       })
     }
   }
+
+  loginFb() {
+    this.af.auth.signInWithPopup(
+      new firebase.auth.FacebookAuthProvider
+    ).then(
+        (success) => {
+
+        this.router.navigate(['/pages']);
+      }).catch(
+        (err) => {
+        this.error = err;
+      })
+  }
+
+
+  loginGoogle() {
+    this.af.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider ).then(
+        (success) => {
+         this.router.navigate(['/pages']);
+      }).catch(
+        (err) => {
+        this.error = err;
+      })
+  }
+
 }

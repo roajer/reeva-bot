@@ -22,13 +22,13 @@
               </div>
             </div>
 
-      <div class="form-group row">
+      <!--div class="form-group row">
         <label for="inputEmail3" class="col-sm-3 form-control-label">Blog name</label>
         <div class="col-sm-9">
           <input type="text" placeholder="Blog Name" [ngModel]="confdata?.blogname" (ngModelChange)="confdata ? confdata.blogname = $event : null" name="blogname"
             class="form-control">
         </div>
-      </div>
+      </div-->
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 form-control-label">Blog URL</label>
         <div class="col-sm-9">
@@ -40,19 +40,19 @@
 
       <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="Default Optin" baCardClass="traffic-panel ">
       <div class="form-group row">
-        <label for="inputPopup" class="col-sm-3 form-control-label">Default Optin</label>
+        <label for="inputPopup" class="col-sm-3 form-control-label">Optin Offer</label>
         <div class="col-sm-9">
           <input type="text" placeholder="Popup message for your chat" (ngModelChange)="confdata ? confdata.popupmsg = $event : null" [ngModel]="confdata?.popupmsg"
             name="popupmsg" class="form-control">
         </div>
       </div>
-      <!--div class="form-group row">
-        <label for="inputPopup" class="col-sm-3 form-control-label">Default Optin URL</label>
+      <div class="form-group row">
+        <label for="inputPopup" class="col-sm-3 form-control-label">Optin Response</label>
         <div class="col-sm-9">
-          <input type="text" placeholder="Popup message for your chat" (ngModelChange)="confdata ? confdata.popupmsgurl = $event : null" [ngModel]="confdata?.popupmsgurl"
-            name="popupmsgurl" class="form-control">
+          <input type="text" placeholder="Response that you send back" (ngModelChange)="confdata ? confdata.optinresponse = $event : null" [ngModel]="confdata?.optinresponse"
+            name="optinresponse" class="form-control">
         </div>
-      </div-->
+      </div>
     </ba-card>
 
     <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="About Blog" baCardClass="traffic-panel ">
@@ -74,17 +74,17 @@
 
       <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-12" cardTitle="Special Offers" baCardClass="traffic-panel ">
         <div class="form-group row">
-          <label for="inputabout" class="col-sm-3 form-control-label">Offer Details</label>
+          <label for="inputabout" class="col-sm-3 form-control-label">Offer Name</label>
           <div class="col-sm-9">
-            <input type="text" placeholder="About Your Offer" (ngModelChange)="confdata ? confdata.aboutus = $event : null" [ngModel]="confdata?.aboutus"
-              name="aboutus" class="form-control">
+            <input type="text" placeholder="About Your Offer" (ngModelChange)="confdata ? confdata.offer = $event : null" [ngModel]="confdata?.offer"
+              name="offer" class="form-control">
           </div>
         </div>
         <div class="form-group row">
-          <label for="contactinfo" class="col-sm-3 form-control-label">Offer URL</label>
+          <label for="contactinfo" class="col-sm-3 form-control-label">Offer Details</label>
           <div class="col-sm-9">
-            <input type="text" placeholder="Find more details" (ngModelChange)="confdata ? confdata.contactinfo = $event : null" [ngModel]="confdata?.contactinfo"
-              name="contactinfo" class="form-control">
+            <input type="text" placeholder="Find more details" (ngModelChange)="confdata ? confdata.offerdet = $event : null" [ngModel]="confdata?.offerdet"
+              name="offerdet" class="form-control">
           </div>
         </div>
       </ba-card>
@@ -127,10 +127,11 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="row">
             <div class="offset-sm-12 col-sm-9">
-                <label for="inputPassword3" class="col-sm-6 form-control-label">Here is your key: </label>
-                <input type="text" value="0ebfskjdsb" disabled class="col-sm-6 form-control" />
+              <br/>
+                <label for="inputPassword3" class="col-sm-12 form-control-label">Here is your key: sdfsdkbsdkb 23423  </label>
+                <!--input type="text" value="0ebfskjdsb" disabled class="col-sm-6 form-control" /-->
             </div>
         </div>
 
@@ -138,54 +139,3 @@
 
   </div>
 
-<!--
-<i class="socicon socicon-google" (click)="loginGoogle()" title="{{'login.share_on_google_plus' | translate}}"></i>
-
-
-<h1>Hello Analytics Reporting API V4</h1>
-
-<!-- The Sign-in button. This will run `queryReports()` on success. -->
-<!-- <p class="g-signin2" data-onsuccess="queryReports"></p>
-
-<!-- The API response will be printed here. -->
-<!--<textarea cols="80" rows="20" id="query-output"></textarea>
-
-<script>
-  // Replace with your view ID.
-  var VIEW_ID = '86631500';
-
-  // Query the API and print the results to the page.
-  function queryReports() {
-    gapi.client.request({
-      path: '/v4/reports:batchGet',
-      root: 'https://analyticsreporting.googleapis.com/',
-      method: 'POST',
-      body: {
-        reportRequests: [
-          {
-            viewId: VIEW_ID,
-            dateRanges: [
-              {
-                startDate: '7daysAgo',
-                endDate: 'today'
-              }
-            ],
-            metrics: [
-              {
-                expression: 'ga:sessions'
-              }
-            ]
-          }
-        ]
-      }
-    }).then(displayResults, console.error.bind(console));
-  }
-
-  function displayResults(response) {
-    var formattedJson = JSON.stringify(response.result, null, 2);
-    document.getElementById('query-output').value = formattedJson;
-  }
-
-</script>
-
-<!-- Load the JavaScript API client and Sign-in library. -->

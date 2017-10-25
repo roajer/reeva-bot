@@ -65,6 +65,7 @@ export class IntegrationsComponent implements OnInit {
     const localthis = this;
     firebase.database().ref(`integrations/${this.uid}`).once('value').then(function (snapshot) {
       console.log(snapshot.val());
+      //throwing null
       localthis.emailProvider = snapshot.val().emailProvider;
     });
   }

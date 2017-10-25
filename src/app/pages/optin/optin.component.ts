@@ -129,7 +129,8 @@ ngOnInit() {
  let headers = new Headers();
 		headers.append('Authorization', 'Bearer d230d92c08d640eeb79b1350db1d7608');
 		this.autocompleteItems = (text: string): Observable<Response> => {
-			const url = 'https://api.api.ai/v1/entities?v=20150910';
+
+			const url = 'https://us-central1-reeva-d9399.cloudfunctions.net/mlGetListFunction?tokenid=09a71e73b0b167dc20628cd1611f1f27';
 			return this.http
 			.get(url, {
 				headers: headers
