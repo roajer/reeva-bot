@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild,ViewEncapsulation} from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { userdata } from '../././_model/userdata';

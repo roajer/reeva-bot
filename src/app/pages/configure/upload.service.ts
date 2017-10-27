@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
 
 import { Upload } from './upload.class';
@@ -16,15 +16,16 @@ export class UploadService {
 
     private uid: string = firebase.auth().currentUser.uid;
     private basePath: string = '/uploads';
-    uploads: FirebaseListObservable<Upload[]>;
+   // uploads: FirebaseListObservable<Upload[]>;
 
-
+/*
     getUploads(query = {}) {
         this.uploads = this.db.list(this.basePath, {
             query,
         });
         return this.uploads;
     }
+    */
 
    downloadprofImg ()
     {

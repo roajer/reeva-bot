@@ -189,9 +189,7 @@ submit(i:number) {
         this.getFirebaseData(this.name.uid, this.user);
         this.router.navigate(['/pages/optin']);
          this.openModal('Created new Optin','success-modal');
-      }).catch(
-        (err) => {
-        console.log(err);
+
       });
    }
     else
