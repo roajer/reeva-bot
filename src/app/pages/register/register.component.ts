@@ -47,7 +47,15 @@ constructor(public af: AngularFireAuth,private router: Router,fb:FormBuilder) {
      this.af.auth.createUserWithEmailAndPassword(this.form.value.email,this.form.value.passwords.password).then(
         (success) => {
        console.log(success);
-        this.router.navigate(['/login'])
+
+       var user = firebase.auth().currentUser;
+       user.sendEmailVerification().then(function() {
+         // Email sent.
+       }).catch(function(error) {
+         console.log(error);
+       });
+
+        this.router.navigate(['/pages/configure'])
       }).catch(
         (err) => {
        this.error = err;
@@ -63,7 +71,7 @@ constructor(public af: AngularFireAuth,private router: Router,fb:FormBuilder) {
     ).then(
         (success) => {
 
-        this.router.navigate(['/pages']);
+        this.router.navigate(['/pages/dashboard']);
       }).catch(
         (err) => {
         this.error = err;
@@ -75,7 +83,7 @@ constructor(public af: AngularFireAuth,private router: Router,fb:FormBuilder) {
     this.af.auth.signInWithPopup(
       new firebase.auth.GoogleAuthProvider ).then(
         (success) => {
-         this.router.navigate(['/pages']);
+         this.router.navigate(['/pages/dashboard']);
       }).catch(
         (err) => {
         this.error = err;

@@ -93,6 +93,9 @@ export class Dashboard implements OnInit, OnDestroy {
       const strDte = new Date(this.dateRangeForm.value.startDate).toISOString();
       const endDte = new Date(this.dateRangeForm.value.endDate).toISOString();
       const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
+
+      //const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&userid=JSIC0X3XmWbMzRWIpzNrgqHi8IC2&strdate=${strDte}&enddate=${endDte}`;
+
       console.log('fetching api url', url);
       const subscriber = this.httpService.httpRequest({
         method: 'GET',

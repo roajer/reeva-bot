@@ -56,7 +56,7 @@ export class Login {
     ).then(
         (success) => {
 
-        this.router.navigate(['/pages']);
+        this.router.navigate(['/pages/dashboard']);
       }).catch(
         (err) => {
         this.error = err;
@@ -68,7 +68,7 @@ export class Login {
     this.af.auth.signInWithPopup(
       new firebase.auth.GoogleAuthProvider ).then(
         (success) => {
-         this.router.navigate(['/pages']);
+         this.router.navigate(['/pages/dashboard']);
       }).catch(
         (err) => {
         this.error = err;

@@ -46,7 +46,7 @@ export class ConfigureComponent implements OnInit {
       }
     });
   }
- openModal(content,cssClass) {
+ openModal(content, cssClass) {
   this.modalRef = this.modalService.open(content , { windowClass:cssClass });
    setTimeout(() => { this.modalRef.close()
    },1500);

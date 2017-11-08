@@ -4,23 +4,23 @@
       <ba-card cardTitle="optin{{i + 1}}" baCardClass="with-scroll" [formGroupName]="i">
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Optin Name</label>
-            <input type="text" class="form-control" ([ngModel])="formdata.optinName" formControlName="optinName">
+            <label>Optin Message</label>
+            <input type="text" class="form-control" ([ngModel])="formdata.optinName" formControlName="optinName" placeholder="Your offer message">
           </div>
           <div class="form-group col-md-6">
             <label>Optin Description</label>
-            <input type="text" class="form-control" ([ngModel])="formdata.optinDescription" formControlName="optinDescription">
+            <input type="text" class="form-control" ([ngModel])="formdata.optinDescription" formControlName="optinDescription" placeholder="Tell us little bit about this offer">
           </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Optin Offer URL</label>
-            <input type="text"  id="optinURL" class="form-control" ([ngModel])="formdata.optinURL" formControlName="optinURL">
+            <label>Optin Response</label>
+            <input type="text"  id="optinURL" class="form-control" ([ngModel])="formdata.optinURL" formControlName="optinURL" placeholder="After subscription what should we tell your user?">
 
           </div>
           <div class="form-group col-md-6">
-            <label>Email integration</label>
-            <tag-input [onlyFromAutocomplete]="true" secondaryPlaceholder ="+ Tag" placeholder="+ Tag" ([ngModel])="formdata.optinTag" formControlName="optinTag">
+            <label>Pick your Email List</label>
+            <tag-input [onlyFromAutocomplete]="true" secondaryPlaceholder ="Email List" placeholder="Email List" ([ngModel])="formdata.optinTag" formControlName="optinTag">
               <tag-input-dropdown [showDropdownIfEmpty]="true"
               [autocompleteObservable]="autocompleteItems">
               </tag-input-dropdown>
