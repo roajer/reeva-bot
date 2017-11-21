@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row flex-items-xs-middle flex-items-xs-center">
 
+
     <!-- Table #1  -->
     <div class="col-xs-12 col-lg-4">
       <div class="card text-xs-center">
@@ -12,9 +13,9 @@
             Lite Plan
           </h4>
           <ul class="list-group">
-            <li class="list-group-item">Chatbot</li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
+            <li class="list-group-item">10k Chat</li>
+            <li class="list-group-item">Limited features</li>
+            <li class="list-group-item">Ads Supported</li>
 
           </ul>
           <a href="#" class="btn btn-gradient mt-2">Current Plan</a>
@@ -33,12 +34,16 @@
             Pro Plan
           </h4>
           <ul class="list-group">
+            <li class="list-group-item">50k Chat</li>
+            <li class="list-group-item">Intelligent Optins</li>
             <li class="list-group-item">Sell Products</li>
+            <li class="list-group-item">Show Current Offers</li>
             <li class="list-group-item">Email Integrations</li>
             <li class="list-group-item">No Branding</li>
             <li class="list-group-item">Support</li>
           </ul>
           <a class="btn btn-gradient mt-2" (click)="openCheckout('pro')">Choose Plan</a>
+
         </div>
       </div>
     </div>
@@ -54,15 +59,14 @@
             Guru Plan
           </h4>
           <ul class="list-group">
-            <li class="list-group-item">Intelligent Optins</li>
-            <li class="list-group-item">Auto Respond to Subscriber</li>
-            <li class="list-group-item">FB Messanger Integrations</li>
+            <li class="list-group-item">UnLimited Chat</li>
+            <li class="list-group-item">FB Messanger Bot</li>
             <li class="list-group-item">Run Flash Sale</li>
             <li class="list-group-item">Deep Insights</li>
             <li class="list-group-item">Pro Support</li>
             <li class="list-group-item"></li>
           </ul>
-          <a class="btn btn-gradient mt-2" (click)="openCheckout('guru')">Choose Plan</a>
+          <a class="btn btn-gradient mt-2" (click)="openCheckout('guru')" ng-disabled>Coming Soon</a>
         </div>
       </div>
     </div>
