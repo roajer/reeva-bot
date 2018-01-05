@@ -65,7 +65,7 @@ export class Dashboard implements OnInit, OnDestroy {
       if (auth) {
         this.name = auth;
         this.loader = true;
-      //  this.getFirebaseData(this.name.uid, user);
+        //  this.getFirebaseData(this.name.uid, user);
       }
     });
   }
@@ -73,7 +73,7 @@ export class Dashboard implements OnInit, OnDestroy {
   ngOnInit() {
     this.fetchDateRangeData();
     this.dateRangeFormSub = this.dateRangeForm.valueChanges.subscribe((data) => {
-     this.fetchDateRangeData();
+      this.fetchDateRangeData();
     });
 
   }
@@ -85,17 +85,14 @@ export class Dashboard implements OnInit, OnDestroy {
 
   fetchDateRangeData(event?: any) {
     if (this.dateRangeForm.valid && !this.dateRangeForm.errors) {
-    /*  const data = JSON.stringify({
-        startDate: new Date(this.dateRangeForm.value.startDate).toISOString(),
-        endDate: new Date(this.dateRangeForm.value.endDate).toISOString(),
-      });
-    */
+      /*  const data = JSON.stringify({
+          startDate: new Date(this.dateRangeForm.value.startDate).toISOString(),
+          endDate: new Date(this.dateRangeForm.value.endDate).toISOString(),
+        });
+      */
       const strDte = new Date(this.dateRangeForm.value.startDate).toISOString();
       const endDte = new Date(this.dateRangeForm.value.endDate).toISOString();
       const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&userid=${this.name.uid}&strdate=${strDte}&enddate=${endDte}`;
-
-      //const url = ` https://us-central1-reeva-d9399.cloudfunctions.net/queryFunction?query=email&userid=JSIC0X3XmWbMzRWIpzNrgqHi8IC2&strdate=${strDte}&enddate=${endDte}`;
-
       console.log('fetching api url', url);
       const subscriber = this.httpService.httpRequest({
         method: 'GET',
@@ -172,7 +169,7 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
 
-
+/*
 
   fetchDateRangeProductData(event?: any) {
     if (this.dateRangeProductForm.valid && !this.dateRangeProductForm.errors) {
@@ -220,82 +217,81 @@ export class Dashboard implements OnInit, OnDestroy {
       });
     }
   }
-
+*/
   getcsv(queryData) {
     //this.emailsListData
-let csvArray = '';
-for (let m of this.emailsListData) {
+    let csvArray = '';
+    for (let m of this.emailsListData) {
 
-}
-/*const newArray = this.emailsListData.map(o => {
-  return { name: o.userName, email: o.emailID, date: o.date };
-}); */
-
-
-
-var newArray = this.emailsListData.map(o => {
-  return { name: o.userName, email: o.emailID, date: o.date };
-});
+    }
+    /*const newArray = this.emailsListData.map(o => {
+      return { name: o.userName, email: o.emailID, date: o.date };
+    }); */
 
 
-//newArray=newArray.splice(0,1);
-console.log(newArray);
+
+    var newArray = this.emailsListData.map(o => {
+      return { name: o.userName, email: o.emailID, date: o.date };
+    });
 
     let csvData = this.d3.csvFormat(newArray);
+    let rows = this.d3.csvParseRows(csvData);
+    csvData = this.d3.csvFormatRows(rows.slice(1,rows.length));
+    // let csvData = this.d3.csvParseRows(string);
 
     console.log(csvData);
-let myBlob: Blob = new Blob([csvData], { type: 'text/csv' });
- let fileURL = URL.createObjectURL(myBlob);
+    let myBlob: Blob = new Blob([csvData], { type: 'text/csv' });
+    let fileURL = URL.createObjectURL(myBlob);
 
-  if(navigator.msSaveOrOpenBlob) {
-        navigator.msSaveBlob(myBlob, 'reeva.csv');
+    if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(myBlob, 'reeva.csv');
     } else {
-        let a = document.createElement('a');
-        a.href = fileURL;
-        a.download = 'reeva.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+      let a = document.createElement('a');
+      a.href = fileURL;
+      a.download = 'reeva.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
     window.URL.revokeObjectURL(fileURL);
 
     // Cross your fingers at this point and pray whatever you're used to pray
     //window.open(fileURL);
-/*  for (let entry of queryData) {
-    let csvString = '';
-    csvString = csvString + queryData.userName + ",";
-    console.log(entry); // 1, "string", false
-    } */
+    /*  for (let entry of queryData) {
+        let csvString = '';
+        csvString = csvString + queryData.userName + ",";
+        console.log(entry); // 1, "string", false
+        } */
   }
 
-/*  getFirebaseData(data, user) {
-    this.loader = true;
-    firebase.database().ref('users' + '/' + data).once('value').then(function (snapshot) {
-      user = snapshot.val();
+  /*  getFirebaseData(data, user) {
+      this.loader = true;
+      firebase.database().ref('users' + '/' + data).once('value').then(function (snapshot) {
+        user = snapshot.val();
 
-    }).then(sucess => {
-      this.loader = false;
-      this.formdata = user;
+      }).then(sucess => {
+        this.loader = false;
+        this.formdata = user;
 
-    });
-  } */
+      });
+    } */
 
- /* onSubmit(formData) {
-    console.log(formData);
-    if (formData.valid) {
-      firebase.database().ref('users' + '/' + this.name.uid).set(formData.value).then(
-        (success) => {
-          this.formdata = {};
+  /* onSubmit(formData) {
+     console.log(formData);
+     if (formData.valid) {
+       firebase.database().ref('users' + '/' + this.name.uid).set(formData.value).then(
+         (success) => {
+           this.formdata = {};
 
-          this.getFirebaseData(this.name.uid, this.user);
-          this.router.navigate(['/pages/dashboard']);
-        }).catch(
-        (err) => {
-          console.log(err);
-        });
+           this.getFirebaseData(this.name.uid, this.user);
+           this.router.navigate(['/pages/dashboard']);
+         }).catch(
+         (err) => {
+           console.log(err);
+         });
 
-    }
-  } */
+     }
+   } */
 
   ngOnDestroy() {
     if (this.dateRangeFormSub) { this.dateRangeFormSub.unsubscribe(); }

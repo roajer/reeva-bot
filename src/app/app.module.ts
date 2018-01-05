@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { AngularFireModule } from 'angularfire2';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -54,6 +55,7 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
+    SimpleNotificationsModule.forRoot(),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)],

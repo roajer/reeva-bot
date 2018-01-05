@@ -75,14 +75,8 @@ export class Login {
       })
   }
 
-  forgotPassword(emailAddress){
-    var auth = firebase.auth();
-
-    auth.sendPasswordResetEmail(emailAddress).then(function() {
-      // Email sent.
-    }).catch(function(error) {
-      console.log(error);
-    });
+  forgotPassword() {
+    this.router.navigate(['/login/forgotpassword']);
   }
 
   changePassword(newPassword){

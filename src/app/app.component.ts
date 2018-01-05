@@ -17,18 +17,26 @@ import { layoutPaths } from './theme/theme.constants';
     <main [class.menu-collapsed]="isMenuCollapsed" baThemeRun>
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
+      <simple-notifications [options]="options"></simple-notifications>
     </main>
   `
 })
 export class App {
 
   isMenuCollapsed: boolean = false;
+  options = {
+    timeOut: 5000,
+    position: ["top", "right"],
+    showProgressBar: true,
+    pauseOnHover: true,
+    clickToClose: true,
+  }
 
   constructor(private _state: GlobalState,
-              private _imageLoader: BaImageLoaderService,
-              private _spinner: BaThemeSpinner,
-              private viewContainerRef: ViewContainerRef,
-              private themeConfig: BaThemeConfig) {
+    private _imageLoader: BaImageLoaderService,
+    private _spinner: BaThemeSpinner,
+    private viewContainerRef: ViewContainerRef,
+    private themeConfig: BaThemeConfig) {
 
     themeConfig.config();
 

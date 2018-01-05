@@ -21,6 +21,7 @@ export class Register {
   error:any;
   signuperror:boolean = false;
   public submitted:boolean = false;
+
 constructor(public af: AngularFireAuth,private router: Router,fb:FormBuilder) {
 
     this.form = fb.group({

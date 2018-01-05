@@ -25,7 +25,6 @@
         "../node_modules/font-awesome/scss/font-awesome.scss",
         "../node_modules/ionicons/scss/ionicons.scss",
         "../node_modules/bootstrap/scss/bootstrap.scss",
-        "../node_modules/leaflet/dist/leaflet.css",
         "../node_modules/chartist/dist/chartist.css",
         "../node_modules/fullcalendar/dist/fullcalendar.css",
         "../node_modules/handsontable/dist/handsontable.full.css",

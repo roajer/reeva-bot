@@ -1,24 +1,60 @@
-<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)"
-[ngClass]="{scrolled: isScrolled}">
-<a routerLink="/pages/dashboard" class="al-logo clearfix"><span>Ree</span>VA</a>
-<a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
+<div class="page-top clearfix" baScrollPosition maxHeight="50" (scrollChange)="scrolledChanged($event)" [ngClass]="{scrolled: isScrolled}">
+    <ng-template #changePasswordDialog let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Change Password</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-horizontal" [formGroup]="myform" (ngSubmit)="onSubmit(myform.value)">
+        <div class="modal-body">
+          <div class="form-group row" [ngClass]="{'has-error': (!newPassword.valid && newPassword.touched), 'has-success': (newPassword.valid && newPassword.touched)}">
+            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input [formControl]="newPassword" type="password" class="form-control" id="inputPassword3" placeholder="New Password">
+            </div>
+          </div>
+          <div class="form-group row" [ngClass]="{'has-error': (!repeatPassword.valid && repeatPassword.touched), 'has-success': (repeatPassword.valid && repeatPassword.touched)}">
+            <label for="inputPassword4" class="col-sm-2 control-label">Repeat</label>
+            <div class="col-sm-10">
+              <input [formControl]="repeatPassword" type="password" class="form-control" id="inputPassword4" placeholder="Repeat Password">
+              <span *ngIf="!myform.valid && (newPassword.touched || repeatPassword.touched)" class="help-block sub-little-text">Passwords don't match.</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="!myform.valid">Save</button>
+          <button type="button" class="btn btn-danger" (click)="d()">Close</button>
+        </div>
+      </form>
+    </ng-template>
+    <a routerLink="/pages/dashboard" class="al-logo clearfix">
+      <span>Ree</span>VA</a>
+    <a href (click)="toggleMenu()" class="collapse-menu-link ion-navicon"></a>
 
-<div class="search">
-<i class="ion-ios-search-strong" ng-click="startSearch()"></i>
-<input id="searchInput" type="text" placeholder="Search for...">
-</div>
+    <div class="search">
+      <i class="ion-ios-search-strong" ng-click="startSearch()"></i>
+      <input id="searchInput" type="text" placeholder="Search for...">
+    </div>
 
-<div class="user-profile clearfix">
-<div class="dropdown al-user-profile">
- <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
-   <img [src]="imageUrl">
- </a>
- <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
-<!--   <li class="dropdown-item"><a href><i class="fa fa-user"></i>Profile</a></li>
-   <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li> -->
-   <li class="dropdown-item"><a href (click)="signOut()" class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
- </ul>
-</div>
-<!--  <ba-msg-center></ba-msg-center> -->
-</div>
-</div>
+    <div class="user-profile clearfix">
+      <div class="dropdown al-user-profile">
+        <a class="profile-toggle-link dropdown-toggle" id="user-profile-dd" data-toggle="dropdown" aria-expanded="false">
+          <img [src]="imageUrl">
+        </a>
+        <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
+          <!--   <li class="dropdown-item"><a href><i class="fa fa-user"></i>Profile</a></li>
+     <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li> -->
+          <li class="dropdown-item">
+            <a href="javascript:void(0)" (click)="changePassword(changePasswordDialog)">
+              <i class="fa fa-key"></i>Change Password</a>
+          </li>
+          <li class="dropdown-item">
+            <a href (click)="signOut()" class="signout">
+              <i class="fa fa-power-off"></i>Sign out</a>
+          </li>
+        </ul>
+      </div>
+      <!--  <ba-msg-center></ba-msg-center> -->
+    </div>
+  </div>
